@@ -1,4 +1,4 @@
-QJJ_annotator
-=============
+QJJJ_annotator
+==============
 
-Sequence annotation program
+Flat file sequence annotator
