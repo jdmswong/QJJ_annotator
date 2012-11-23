@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
 		
 	if (strstr(argv[1], "dbSNP") || strstr(argv[1], "dbsnp")) {
 		if (argc == 2) {
-			printf("\n\t%s vcf dbSNP\t\n\n", argv[0]);
+			printf("\n\t%s dbSNP misc\t\n\n", argv[0]);
 		} else if (strstr(argv[2], "misc")) {
 			dbSNP_misc(argc, argv);
 		} else
