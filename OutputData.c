@@ -45,7 +45,7 @@ void OutputData_printHorizontal(struct OutputData *od) {
 		if (strstr(od->header[j],"."))
       	printf ("\t");
 		else 
-      	printf ("%s\t",od->data[j]);
+			printf ("%s\t",od->data[j]);
    }
    printf ("\n\n");
 }

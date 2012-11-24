@@ -14,7 +14,7 @@ INCLUDES=-I.
 LIBDIRS=-L. 
 LIBS= -lm 
 
-SOURCES=InputData.c OutputData.c dbSNP_misc.c main.c
+SOURCES=ACGTN.c fastq.c fastq_misc.c InputData.c OutputData.c dbSNP_misc.c main.c
 OBJECTS=$(SOURCES:.c=.o)
 HEADERS=$(SOURCES:.c=.h)
 EXECUTABLE=qjjpipeline

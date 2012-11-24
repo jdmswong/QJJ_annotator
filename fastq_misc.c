@@ -54,11 +54,9 @@ void fastq_misc_Usage(int argc, char *argv[], struct InputData *id) {
 
 
 /**
-  fastq main 
-  **/
-
+	fastq main
+**/
 void fastq_misc(int argc, char *argv[]) {
-
 	char c;
 	struct InputData *id = InputData_Init();
 	struct OutputData *od = OutputData_Init();

@@ -1,5 +1,5 @@
 //
-// written by 
+// written by Quang Trinh, JD Wong, Joel Weiser
 //
 
 
