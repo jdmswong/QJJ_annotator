@@ -14,5 +14,15 @@ struct OutputData {
 	// 
 	int outputOrientation;
 
+	// number of columns
+	int n;
+	char header[200][100];
+	char data[200][100];
+
+
 };
 
+struct OutputData * OutputData_Init() ;
+void OutputData_print(struct OutputData *od) ;
+void OutputData_printHorizontal(struct OutputData *od) ;
+void OutputData_printVertical(struct OutputData *od);

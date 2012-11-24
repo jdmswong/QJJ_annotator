@@ -10,6 +10,7 @@
 #include "InputData.h"
 #include "OutputData.h"
 #include "dbSNP.h"
+#include "fastq.h"
 
 /** 
   main usage 
@@ -40,6 +41,13 @@ int main(int argc, char *argv[]) {
 			printf("\n\t%s dbSNP misc\t\n\n", argv[0]);
 		} else if (strstr(argv[2], "misc")) {
 			dbSNP_misc(argc, argv);
+		} else
+			usage(argc, argv);
+	} else if (strstr(argv[1], "fastq") ) {
+		if (argc == 2) {
+			printf("\n\t%s fastq misc\t\n\n", argv[0]);
+		} else if (strstr(argv[2], "misc")) {
+			fastq_misc(argc, argv);
 		} else
 			usage(argc, argv);
 	} else

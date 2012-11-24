@@ -13,6 +13,10 @@ struct InputData {
 	int mode;
 	// input file 
 	char inputFileName[1024];
+	FILE *inputFile;
+
+	char inputFilePrefix[1024];
+
 	// output file 
 	char outputFileName[1024];
 

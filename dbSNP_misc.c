@@ -69,7 +69,7 @@ void dbSNP_misc (int argc, char *argv[]) {
 			break;
 		default:
 			//abort();
-			printf("\n\n unknown arguments %s ", optarg);
+			printf("\n\nunknown arguments %s ", optarg);
 			dbSNP_misc_Usage(argc, argv, id);
 		}
 	}

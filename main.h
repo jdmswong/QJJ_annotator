@@ -8,4 +8,8 @@
 
 #define AUTHORS "\nWritten by JD, Joel, and Q. \n"
 
+#define MAX_CHAR_PER_LINE 10000
+
+#define MAX_READ_LENGTH 150
+
 

@@ -30,10 +30,11 @@ struct InputData * InputData_Init() {
   **/
 void InputData_printUserInputs(struct InputData *id) {
 
-	printf ("\n");
-	printf ("\n========== ");
+	printf ("\n\n");
+	printf ("\n==================================");
 	printf ("\n[%s:%d] DEBUG", __FILE__, __LINE__ );
-	printf ("\ninput file name '%s' ", id->inputFileName );
-	printf ("\n");
+	printf ("\nmode: '%d' ", id->mode);
+	printf ("\ninput file name: '%s' ", id->inputFileName );
+	printf ("\n\n");
 
 }
