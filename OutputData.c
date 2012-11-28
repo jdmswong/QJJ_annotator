@@ -24,11 +24,15 @@ struct OutputData * OutputData_Init() {
 
 
 void OutputData_print(struct OutputData *od) {
+	printf ("\n#%s\n",od->outputComments);
 	if (od->outputOrientation == OUTPUT_ORIENTATION_VERTICAL) {
 		OutputData_printVertical(od);
 	} else 
 		OutputData_printHorizontal(od);
 }
+/**
+  output data in rows format 
+  **/
 void OutputData_printHorizontal(struct OutputData *od) {
 
 	int j;
@@ -50,6 +54,9 @@ void OutputData_printHorizontal(struct OutputData *od) {
    printf ("\n\n");
 }
 
+/**
+  output data in columns format 
+  **/
 void OutputData_printVertical(struct OutputData *od) {
 	int j;
    printf ("\n");

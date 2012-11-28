@@ -14,6 +14,9 @@ struct OutputData {
 	// 
 	int outputOrientation;
 
+	// output comments
+	char outputComments[1024];
+
 	// number of columns
 	int n;
 	char header[200][100];

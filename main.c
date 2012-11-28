@@ -11,6 +11,7 @@
 #include "OutputData.h"
 #include "dbSNP.h"
 #include "fastq.h"
+#include "vcf.h"
 
 /** 
   main usage 
@@ -21,6 +22,8 @@ void usage(int argc, char *argv[]) {
 	printf("\nAn annotation pipeline for Next Gen Sequencing data. ");
 	printf("\n\nUsage:");
 	printf("\n\t%s dbSNP misc\t", argv[0]);
+	printf("\n\t%s fastq misc\t", argv[0]);
+	printf("\n\t%s vcf misc\t", argv[0]);
 	printf("\n\n");
 	exit(0);
 }
@@ -48,6 +51,13 @@ int main(int argc, char *argv[]) {
 			printf("\n\t%s fastq misc\t\n\n", argv[0]);
 		} else if (strstr(argv[2], "misc")) {
 			fastq_misc(argc, argv);
+		} else
+			usage(argc, argv);
+	} else if (strstr(argv[1], "vcf") ) {
+		if (argc == 2) {
+			printf("\n\t%s vcf misc\t\n\n", argv[0]);
+		} else if (strstr(argv[2], "misc")) {
+			vcf_misc(argc, argv);
 		} else
 			usage(argc, argv);
 	} else

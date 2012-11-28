@@ -6,6 +6,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "main.h"
+
 
 struct InputData {
 
@@ -28,3 +30,6 @@ struct InputData {
 
 struct InputData * InputData_Init();
 void InputData_printUserInputs(struct InputData *id);
+void InputData_parseLine(char line[], char values[][MAX_CHAR_PER_COLUMN], int *vindex) ;
+void InputData_printParsedLine(char values[MAX_NUMBER_OF_COLUMNS][MAX_CHAR_PER_COLUMN], int vindex );
+
