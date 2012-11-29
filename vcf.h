@@ -46,4 +46,5 @@ void vcf_misc(int argc, char *argv[]);
 
 void vcf_counts(struct InputData *id, struct OutputData *od);
 void vcf_annotates(struct InputData *id, struct OutputData *od);
+void vcf_splitGenotypeFormat(char header[], char genotype[], char outputStr[]) ;
 

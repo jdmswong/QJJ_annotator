@@ -1,3 +1,18 @@
 
 
+VCF
+  number of variants common between the samples 
+
+fasta
+  extract regions 
+
+annotate against protein domains
+
+bam 
+  quick summary 
+
+
+
+
+
 

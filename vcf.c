@@ -139,7 +139,7 @@ void vcf_annotates(struct InputData *id, struct OutputData *od) {
 
    char line[MAX_CHAR_PER_LINE];
 	char values[MAX_NUMBER_OF_COLUMNS][MAX_CHAR_PER_COLUMN];
-	int vindex, i,j,k,l;
+	int vindex, i,j,k,l,p;
 	char str[1024];
 	struct VCF *vcf = vcf_Init();
 
@@ -148,6 +148,7 @@ void vcf_annotates(struct InputData *id, struct OutputData *od) {
 	char **vptr;
 
 	char tmpStr[1024];
+	char outputStr[1024];
 
 
    id->inputFile = fopen(id->inputFileName, "r");
@@ -194,52 +195,26 @@ void vcf_annotates(struct InputData *id, struct OutputData *od) {
 				exit (1);
 			}
 			
+			// for each of the samples 
 			j = 0;
 			for (i = VCF_COLUMN_FORMAT+1; i <= vindex; i++) {
 				j++;
 				if (id->verbose) {
-					printf ("\n[%s:%d] - genotype format column # %d; sample ID: %s ; column number %d ; genotype format %s ; \tgenotype %s", __FILE__, __LINE__, vcf->genotypeFormatColumn, vcf->sampleNames[j], vcf->sampleColumns[j], values[vcf->genotypeFormatColumn], values[vcf->sampleColumns[j]]);
+					printf ("\n\n[%s:%d] - sample ID: %s ; column number %d ", __FILE__, __LINE__, vcf->sampleNames[j], vcf->sampleColumns[j]);
+					printf ("\n[%s:%d] - genotype %s ; genotype format column # %d ", __FILE__, __LINE__, values[vcf->genotypeFormatColumn], vcf->genotypeFormatColumn);
+					printf ("\n[%s:%d] - genotype %s", __FILE__, __LINE__, values[vcf->sampleColumns[j]]);
 				}
 
-				sprintf (str, "[sample,%s\t", values[vcf->genotypeFormatColumn]);
-				strcat(str, vcf->sampleNames[j]);
-				pptr = common_str2array(values[vcf->sampleColumns[j]], ':', &length);
-				for (k = 0; k < length; k++) {
-					if (k == 1) {
-						strcat (str, "\t{");
-						strcat (str, pptr[k]);
+				sprintf (outputStr, "[sample,%s\t", values[vcf->genotypeFormatColumn]);
+				strcat(outputStr, vcf->sampleNames[j]);
+					
+				vcf_splitGenotypeFormat(values[vcf->genotypeFormatColumn], values[vcf->sampleColumns[j]], str);
 
-						vptr = common_str2array(pptr[k], ',', &l);
-						int rdepth = atoi(vptr[0]);
-						int vdepth = atoi(vptr[1]);
-						double d;
-
-						strcat (str, "\t");
-						strcat (str, vptr[0]);
-						strcat (str, "\t");
-						d = (100.0 * rdepth)/(rdepth+vdepth);
-						sprintf (tmpStr,"%.2f",d);
-						strcat (str,tmpStr);
-
-						strcat (str, "\t");
-						strcat (str, vptr[1]);
-						strcat (str, "\t");
-						d = (100.0 * vdepth)/(rdepth+vdepth);
-						sprintf (tmpStr,"%.2f",d);
-						strcat (str,tmpStr);
-						strcat (str, "\t");
-						strcat (str, "}");
-						free(vptr);
-					} else {
-						strcat (str, "\t");
-						strcat (str, pptr[k]);
-					}
-				}
-				strcat (str, "\t");
-				strcat (str, "]");
-
-				free(pptr);
-				strcpy(vcf->sampleData[j], str);
+				strcat (outputStr,"\t");
+				strcat (outputStr,str);
+				strcat (outputStr,"\t");
+				strcat (outputStr,"]");
+				strcpy(vcf->sampleData[j], outputStr);
 			}
 
 			if (id->verbose) {
@@ -248,14 +223,104 @@ void vcf_annotates(struct InputData *id, struct OutputData *od) {
 
 			for (i = 1; i<= vcf->n; i++ ) {
 				printf ("%s", vcf->sampleData[i]);
-				if (i < vcf->n)
 					printf ("\t");
-				else
-					printf ("\n");
 			}
+			printf ("%s", line);
 		}
    }   
    fclose(id->inputFile);
 }
 
+/**
+  header   => GT:AD:DP:GQ:PL
+  genotype => 1/1:0,55:55:99:1451,138,0
 
+  construct a uniform format for represent the genotype
+
+  returns: 12 columns strings
+
+  **/
+void vcf_splitGenotypeFormat(char header[], char genotype[], char outputStr[]) {
+
+	int dlength;
+	char **dptr;
+	int hlength;
+	char **hptr;
+	int i,j;
+	int ptrLength;
+	char **ptr;
+	int totalDP;
+	char str[1024];
+	char geno[1024];
+
+	strcpy(outputStr,"");
+
+	if (strstr(genotype,"./.")) {
+		for (i = 0; i < 12; i++) {
+			if (i==0) {
+				strcat(outputStr,"{");
+				strcat(outputStr,".");
+				strcat(outputStr,"\t");
+			} else if (5==0) {
+				strcat(outputStr,"}");
+				strcat(outputStr,"\t");
+			} else {
+				strcat(outputStr,".");
+				strcat(outputStr,"\t");
+			}
+		}
+		// remove the last '\t'
+		outputStr[strlen(outputStr)-1] = '\0';
+		return ;
+	}
+
+	hptr = common_str2array(header, ':', &hlength);
+	dptr = common_str2array(genotype, ':', &dlength);
+	for (i = 0; i < hlength; i++) {
+		if (strstr(hptr[i],"GT")) {
+			if (strstr(dptr[i],"0/0")) {
+				strcpy(geno,"AA_homozygous");
+			} else if (strstr(dptr[i],"1/1")) {
+				strcpy(geno,"BB_homozygous");
+			} else if (strstr(dptr[i],"0/1")) {
+				strcpy(geno,"AB_heterozygous");
+			} else if (strstr(dptr[i],"0/2")) {
+				strcpy(geno,"?????");
+			} else if (strstr(dptr[i],"1/2")) {
+				strcpy(geno,"TRI-ALLELIC");
+			} else {
+				strcpy(geno,"?????");
+			}
+		} else if (strstr(hptr[i],"AD")) {
+			ptr = common_str2array(dptr[i],',', &ptrLength);
+			totalDP = 0;
+			for (j = 0; j < ptrLength; j++) {
+				totalDP += atoi(ptr[j]);
+			}
+			strcat(outputStr, "{");
+			strcat(outputStr, dptr[i]);
+			// assumes always tri-allelic
+			int N = 3;
+			for (j = 0; j < N; j++) {
+				if (j < ptrLength) {
+					strcat(outputStr, "\t");
+					strcat(outputStr, ptr[j]);
+					strcat(outputStr, "\t");
+					sprintf(str, "%.2f",(100.0 * atoi(ptr[j])) / totalDP);
+					strcat(outputStr, str);
+				} else {
+					strcat(outputStr, "\t");
+					strcat(outputStr, ".");
+					strcat(outputStr, "\t");
+					sprintf(str, ".");
+					strcat(outputStr, str);
+				}
+			}
+			strcat(outputStr, "\t}\t");
+		} else {
+			strcat (outputStr,dptr[i]);
+			strcat(outputStr, "\t");
+		}
+	}
+	strcat(outputStr, geno);
+}
