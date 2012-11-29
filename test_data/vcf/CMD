@@ -1,0 +1,3 @@
+
+../../qjjpipeline vcf misc -m 1 -i test.vcf 
+
