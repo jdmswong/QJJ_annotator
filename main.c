@@ -39,6 +39,7 @@ int main(int argc, char *argv[]) {
 		usage(argc, argv);
 	}
 		
+	// Call proper function, or usage if nothing matched
 	if (strstr(argv[1], "dbSNP") || strstr(argv[1], "dbsnp")) {
 		if (argc == 2) {
 			printf("\n\t%s dbSNP misc\t\n\n", argv[0]);

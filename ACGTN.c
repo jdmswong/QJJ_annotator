@@ -10,7 +10,7 @@
 #include "ACGTN.h"
 #include "OutputData.h"
 
-
+// returns new ACGTN struct defined in header file
 struct ACGTN * ACGTN_Init() {
 
 	int i,j;
@@ -27,7 +27,7 @@ struct ACGTN * ACGTN_Init() {
 	return acgtn;	
 }
 
-
+// returns nucleotide corresponding to index defined here
 char ACGTN_getBase(int index) {
 	if (index == 1)
 		return 'A';
@@ -42,6 +42,8 @@ char ACGTN_getBase(int index) {
 	else 
 		return '*';
 }
+
+// returns index corresponding to given base
 char ACGTN_getIndex(char base) {
 
 	if ((base == 'A') || (base == 'a'))
@@ -57,6 +59,8 @@ char ACGTN_getIndex(char base) {
 	else 
 		return 6;
 }
+
+// returns number of bases contained in passed-in ACGTN struct
 void ACGTN_printACGNTCount(struct ACGTN *acgtn) {
 
 	int i;

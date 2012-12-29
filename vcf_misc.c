@@ -59,6 +59,7 @@ void vcf_misc(int argc, char *argv[]) {
 	char samples[1024] = "", columns[1024] = "";
 	int genotypeFormatColumn = -1;
 
+	// If the option has an argument, it is passed into optarg
 	while ((c = getopt(argc, argv, "m:i:p:C:S:G:vH")) != -1) {
 		switch (c) {
 		case 'm':
